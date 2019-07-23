@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load rocks_extras %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'rocks/css/rocks.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bounds bounds--small">
+  <div class="grid-100">
+    <a href="{% url 'home' %}">
+      <svg class="logo" viewBox="0 0 127.6 84.8" preserveaspectration="xMinYMin meet">
+        <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6 "></polygon>
+        <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4 "></polygon>
+        <polygon points="127.6,61.4 127.6,61.4 110.3,13.5 110.3,13.5 70.3,48.1 70.3,48.1 88.3,80.5 95.3,81.4 95.3,81.4 "></polygon>
+      </svg>
+      <h1 class="logo__name text-centered">World of Wacky Rocks</h1>
+    </a>
+    <p class="logo__text text-centered">The're not rocks!</p>
+    <h3 ><a class="home" href="{% url 'home' %}">Home Page</a></h3>
+  </div>
+    <div class="grid-100 mineral__container">
+      <h1 class="mineral__name">{{ main.name }}</h1>
+      <div class="mineral__image-bg">
+        <img src="{{ STATIC_URL }}rocks/images/{{ main.image_filename }}" alt="">
+        <p class="mineral__caption">{{ main.image_caption }}</p>
+      </div>
+      <div class="mineral__table-container">
+        <table class="mineral__table">
+          <tbody>
+            {% for key, value in important.items %}
+              <tr>
+                <td class="mineral__category mineral_title">{{ key|name_modifier|title }}</td>
+                <td>{{ value }}</td>
+              </tr>
+            {% endfor %}
+            {% for key, value in other.items %}
+              {% if key == 'formula' %}
+                <tr>
+                  <td class="mineral__category mineral_title">{{ key|title }}</td>
+                  <td class="mineral__formula">{{ value|safe }}</td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td class="mineral__category mineral_title">{{ key|name_modifier|title }}</td>
+                  <td>{{ value }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

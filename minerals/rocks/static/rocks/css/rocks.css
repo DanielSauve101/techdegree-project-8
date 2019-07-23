@@ -1,0 +1,13 @@
+.pagination, .home{
+  color: #073082;
+}
+
+.mineral_name{
+  color: #073082;
+  border-color: #08777f;
+  font-weight: bold;
+}
+
+.mineral_title{
+  color: #a55b00;
+}

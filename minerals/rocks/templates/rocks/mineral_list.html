@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'rocks/css/rocks.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bounds">
+<div class="grid-100">
+  <a href="{% url 'home' %}">
+    <svg class="logo" viewBox="0 0 127.6 84.8" preserveaspectration="xMinYMin meet">
+      <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6 "></polygon>
+      <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4 "></polygon>
+      <polygon points="127.6,61.4 127.6,61.4 110.3,13.5 110.3,13.5 70.3,48.1 70.3,48.1 88.3,80.5 95.3,81.4 95.3,81.4 "></polygon>
+    </svg>
+    <h1 class="logo__name text-centered">World of Wacky Rocks</h1>
+  </a>
+  <p class="logo__text text-centered">The're not rocks!</p>
+</div>
+  <div class="grid-100">
+    <ul class="minerals__container">
+      {% for mineral in minerals %}
+      <li class="minerals__item">
+        <a class="minerals__anchor mineral_name" href="{% url 'detail' pk=mineral.pk %}">{{ mineral.name|truncatewords:1 }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="pagination">
+    <span class="step-links">
+      {% if minerals.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ minerals.previous_page_number }}">previous</a>
+      {% endif %}
+    <span class="current">
+      Page {{ minerals.number }} of {{ minerals.paginator.num_pages }}.
+    </span>
+      {% if minerals.has_next %}
+        <a href="?page={{ minerals.next_page_number }}">next</a>
+        <a href="?page={{ minerals.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+{% endblock %}
