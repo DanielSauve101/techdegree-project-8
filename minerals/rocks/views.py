@@ -38,3 +38,28 @@ def mineral_detail(request, pk):
                        'other': other_details_dict})
     else:
         raise Http404('Mineral does not exist.')
+
+
+def search(request):
+    main_details_dict = {}
+    important_details_dict = {}
+    other_details_dict = {}
+    term = request.GET.get('q')
+    mineral = Mineral.objects.filter(
+        name__icontains=term
+    ).values()
+    for elements in mineral:
+        for key, value in elements.items():
+            if key != 'id':
+                if (key == 'name' or key == 'image_filename' or
+                        key == 'image_caption'):
+                    main_details_dict.update({key: value})
+                elif (key == 'category' or key == 'group'):
+                    important_details_dict.update({key: value})
+                else:
+                    if value:
+                        other_details_dict.update({key: value})
+    return render(request, 'rocks/mineral_detail.html',
+                  {'main': main_details_dict,
+                   'important': important_details_dict,
+                   'other': other_details_dict})

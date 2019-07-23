@@ -23,5 +23,6 @@ from rocks import views
 urlpatterns = [
     path('', views.mineral_list, name='home'),
     re_path(r'^minerals/(?P<pk>\d+)/$', views.mineral_detail, name='detail'),
+    path('search/$', views.search, name='search'),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
