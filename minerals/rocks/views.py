@@ -6,7 +6,7 @@ from .models import Mineral
 
 
 def mineral_list(request):
-    """View to show the mineral list using Paginator to limit 45 per page"""
+    """View to show the mineral list using Paginator to limit 45 per page."""
     mineral_list = Mineral.objects.all()
     paginator = Paginator(mineral_list, 45)
     page = request.GET.get('page')
