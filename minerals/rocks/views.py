@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render
 
@@ -7,10 +6,12 @@ from .models import Mineral
 
 def mineral_list(request):
     """View to show the mineral list using Paginator to limit 45 per page."""
-    mineral_list = Mineral.objects.all()
-    paginator = Paginator(mineral_list, 45)
-    page = request.GET.get('page')
-    minerals = paginator.get_page(page)
+    minerals = Mineral.objects.filter(name__startswith='A')
+    return render(request, 'rocks/mineral_list.html', {'minerals': minerals})
+
+
+def letter_search(request, letter=None):
+    minerals = Mineral.objects.filter(name__startswith=letter)
     return render(request, 'rocks/mineral_list.html', {'minerals': minerals})
 
 
