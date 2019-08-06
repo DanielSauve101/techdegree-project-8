@@ -4,15 +4,11 @@ from django.shortcuts import render
 from .models import Mineral
 
 
-def mineral_list(request):
-    """View to show the mineral list using Paginator to limit 45 per page."""
-    minerals = Mineral.objects.filter(name__startswith='A')
-    return render(request, 'rocks/mineral_list.html', {'minerals': minerals})
-
-
-def letter_search(request, letter=None):
+def mineral_list(request, letter="A"):
+    """View to show the mineral list by the first letter of the name."""
     minerals = Mineral.objects.filter(name__startswith=letter)
-    return render(request, 'rocks/mineral_list.html', {'minerals': minerals})
+    return render(request, 'rocks/mineral_list.html',
+                    {'minerals': minerals, 'letter': letter})
 
 
 def mineral_detail(request, pk):
@@ -45,7 +41,7 @@ def search(request):
     main_details_dict = {}
     important_details_dict = {}
     other_details_dict = {}
-    term = request.GET.get('q')
+    term = request.GET.get('search')
     mineral = Mineral.objects.filter(
         name__icontains=term
     ).values()
@@ -64,3 +60,11 @@ def search(request):
                   {'main': main_details_dict,
                    'important': important_details_dict,
                    'other': other_details_dict})
+
+
+def group_search(request):
+    """View to allow search by group."""
+    group_name = request.GET.get('group_name')
+    minerals = Mineral.objects.filter(group__istartswith=group_name)
+    return render(request, 'rocks/mineral_list.html',
+                  {'minerals': minerals, 'group_name': group_name})
