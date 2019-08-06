@@ -65,6 +65,6 @@ def search(request):
 def group_search(request):
     """View to allow search by group."""
     group_name = request.GET.get('group_name')
-    minerals = Mineral.objects.filter(group__istartswith=group_name)
+    minerals = Mineral.objects.filter(group__iexact=group_name)
     return render(request, 'rocks/mineral_list.html',
                   {'minerals': minerals, 'group_name': group_name})

@@ -1,5 +1,3 @@
-from django.template import RequestContext
-
 from rocks.models import Mineral
 
 def custom_proc(request):
