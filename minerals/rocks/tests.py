@@ -78,7 +78,8 @@ class MineralViewsTests(TestCase):
         # Create an instance of a GET request.
         request = self.factory.get('/group/search/?group_name=sulphites')
 
-        # Test my_view() as if it were deployed at /group/search/?group_name=sulphites
+        # Test my_view() as if it were deployed at
+        # /group/search/?group_name=sulphites
         resp = group_search(request)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'sulphites')
