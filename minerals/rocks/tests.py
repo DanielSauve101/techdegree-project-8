@@ -1,11 +1,13 @@
 from django.urls import reverse
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 
 from .models import Mineral
+from .views import group_search, mineral_search_bar
 
 
 class MineralViewsTests(TestCase):
     def setUp(self):
+        self.factory = RequestFactory()
         self.mineral = Mineral.objects.create(
             name='A',
             image_filename='mineralx.jpg',
@@ -62,3 +64,21 @@ class MineralViewsTests(TestCase):
         self.assertEqual(important_dict, resp.context['important'])
         self.assertEqual(other_dict, resp.context['other'])
         self.assertTemplateUsed(resp, 'rocks/mineral_detail.html')
+
+    def test_mineral_search_bar_view(self):
+        # Create an instance of a GET request.
+        request = self.factory.get('/search/?search=a')
+
+        # Test my_view() as if it were deployed at /search/?search=a
+        resp = mineral_search_bar(request)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'a')
+
+    def test_group_search_view(self):
+        # Create an instance of a GET request.
+        request = self.factory.get('/group/search/?group_name=sulphites')
+
+        # Test my_view() as if it were deployed at /group/search/?group_name=sulphites
+        resp = group_search(request)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'sulphites')
